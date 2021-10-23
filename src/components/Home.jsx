@@ -1,4 +1,3 @@
-
 import HeatMap from '@uiw/react-heat-map';
 import Tooltip from '@uiw/react-tooltip';
 
@@ -15,17 +14,21 @@ export default function Home() {
       ];
       
     return(
-        <>
-            <h1>Hello, World!</h1>
-        <HeatMap legendCellSize={13} rectSize={14} width={400} value={value} startDate={new Date('2016/01/01')}       rectRender={(props, data) => {
-        // if (!data.count) return <rect {...props} />;
-        return (
-          <Tooltip key={props.key} placement="top" content={`count: ${data.count || 0}`}>
-            <rect {...props} />
-          </Tooltip>
-        );
-      }}/>
-            
-        </>
+        <HeatMap
+            legendCellSize={13}
+            rectSize={14}
+            width={400}
+            value={value}
+            startDate={new Date('2016/01/01')}
+            rectRender={
+                (props, data) => {
+                    return (
+                      <Tooltip key={props.key} placement="top" content={`count: ${data.count || 0}`}>
+                        <rect {...props} />
+                      </Tooltip>
+                    );
+                }
+            }
+      />
     );
 }
