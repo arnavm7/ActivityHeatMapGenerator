@@ -1,19 +1,34 @@
 // Imports
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getDocs, collection} from 'firebase/firestore';
+import db from '../firebaseStuff.js';
+import ActivityHeatMap from './ActivityHeatMap.jsx';
 
 // App Imports
-import HeatMap from '@uiw/react-heat-map';
-import Tooltip from '@uiw/react-tooltip';
 import Modal from 'react-bootstrap/Modal'
 import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import TextField from "@material-ui/core/TextField";
+<<<<<<< Updated upstream
 import useQuery from '../hooks/useQuery';
 import './Home.css'
+=======
+>>>>>>> Stashed changes
 
 export default function Home() {
     const [show, setShow] = useState(false);
-    console.log(show);
+    const [activities, setActivities] = useState(null);
+
+    useEffect(() => {
+        console.log("HELLO");
+        (async () => {
+            const querySnapshot = await getDocs(collection(db, "activities"));
+            const activitiesDocs = []
+            querySnapshot.forEach(doc => activitiesDocs.push(doc));
+            setActivities(activitiesDocs); 
+        })();
+    }, [setActivities]);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const value = [
@@ -30,9 +45,10 @@ export default function Home() {
 
     return(
         <main>
-        <ActivityHeatMap id="123456" value={value}/>
-        <ActivityHeatMap id="19765" value={value}/>
-        <ActivityHeatMap id="19767" value={value}/>
+            {activities && activities.map((doc) => {
+                console.log("doc");
+                return (<ActivityHeatMap key={doc.id} id={doc.id} value={doc.data().dateCount}/>)
+            })}
             <Button variant="primary" onClick={handleShow} >
                 Create New Activity log
             </Button>
@@ -58,28 +74,5 @@ export default function Home() {
             </Modal>
         </main>
     );
-}
-
-function ActivityHeatMap({ id, value }){
-    return(
-    <Link to={`/activity?id=${id}`}>
-            <HeatMap
-                legendCellSize={13}
-                rectSize={14}
-                width={400}
-                value={value}
-                startDate={new Date('2016/01/01')}
-                rectRender={
-                    (props, data) => {
-                        return (
-                          <Tooltip key={props.key} placement="top" content={`count: ${data.count || 0}`}>
-                            <rect {...props} />
-                          </Tooltip>
-                        );
-                    }
-                }
-            />
-        </Link>);
-
 }
 
