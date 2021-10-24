@@ -29,24 +29,9 @@ export default function Home() {
 
     return(
         <main>
-        <Link to="/activity?id=123456">
-            <HeatMap
-                legendCellSize={13}
-                rectSize={14}
-                width={400}
-                value={value}
-                startDate={new Date('2016/01/01')}
-                rectRender={
-                    (props, data) => {
-                        return (
-                          <Tooltip key={props.key} placement="top" content={`count: ${data.count || 0}`}>
-                            <rect {...props} />
-                          </Tooltip>
-                        );
-                    }
-                }
-            />
-        </Link>
+        <ActivityHeatMap id="123456" value={value}/>
+        <ActivityHeatMap id="19765" value={value}/>
+        <ActivityHeatMap id="19767" value={value}/>
             <Button variant="primary" onClick={handleShow} >
                 Create New Activity log
             </Button>
@@ -72,5 +57,28 @@ export default function Home() {
             </Modal>
         </main>
     );
+}
+
+function ActivityHeatMap({ id, value }){
+    return(
+    <Link to={`/activity?id=${id}`}>
+            <HeatMap
+                legendCellSize={13}
+                rectSize={14}
+                width={400}
+                value={value}
+                startDate={new Date('2016/01/01')}
+                rectRender={
+                    (props, data) => {
+                        return (
+                          <Tooltip key={props.key} placement="top" content={`count: ${data.count || 0}`}>
+                            <rect {...props} />
+                          </Tooltip>
+                        );
+                    }
+                }
+            />
+        </Link>);
+
 }
 
