@@ -1,0 +1,16 @@
+#activities-container{
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+#demo-log{
+    line-height: 1.75;
+    color: red;
+    border-style: solid;
+    border-color: grey;
+}
+
+#explanation{
+    float:right;
+}

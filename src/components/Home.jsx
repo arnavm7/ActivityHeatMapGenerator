@@ -9,6 +9,7 @@ import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import TextField from "@material-ui/core/TextField";
 import useQuery from '../hooks/useQuery';
+import './Home.css'
 
 export default function Home() {
     const [show, setShow] = useState(false);
